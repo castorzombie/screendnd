@@ -19,7 +19,8 @@ export default function(state = initialState, action) {
         case DELETE_SCREEN:
             return {
                 ...state,
-                screens: state.screens.filter(screen => screen.id != action.payload)
+                screens: state.screens.filter(screen => screen.id != action.payload),
+                screen: state.screens.find(screen => screen.id != action.payload)
             } 
         case DETAILS_SCREEN:
             return {

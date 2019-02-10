@@ -15,10 +15,9 @@ class ListScreen extends Component {
   }
 
   render() {
+
     const screens = this.props;
-    console.log(screens.screens);
-    console.log(screens.screen);
-    const msg = Object.keys(screens.screens).length === 0 ? 'No screens avaliable': 'Screens list';
+    const msg = Object.keys(screens.screens).length === 0 ? 'No screens available': 'Screens list';
     
     return (
       <div className="card mt-2">
@@ -38,6 +37,7 @@ class ListScreen extends Component {
       </div>
     )
   }
+  
 }
 
 const mapStateToProps = (state) => ({

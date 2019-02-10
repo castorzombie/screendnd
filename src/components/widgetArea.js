@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
 import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 import WidgetList from './WidgetList'
-import WidgetSelected from './WidgetSelected'
 import {connect} from 'react-redux';
 import {updateSelected} from '../actions/screensActions';
-
-const getItems = (count, offset = 0) =>
-    Array.from({ length: count }, (v, k) => k).map(k => ({
-        id: `item-${k + offset}`,
-        content: `widget ${k + offset}`
-    }));
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -23,7 +16,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
     destClone.splice(droppableDestination.index, 0, removed);
-
     const result = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
@@ -31,7 +23,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 };
 
 const grid = 10;
-
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? 'lightblue' : 'lightgrey',
     padding: grid,
@@ -39,17 +30,31 @@ const getListStyle = isDraggingOver => ({
 });
 
 class widgetArea extends Component {
-    state = {
-        items: getItems(0),
-        selected: getItems(0, 0)
-    };
+
+    constructor(){
+        super();
+        this.state = {
+            items: [],
+            selected: [],
+            screenName: 'No screen selected'
+        };
+    }
 
     componentDidUpdate(prevProps) {
         if (prevProps.screen !== this.props.screen) {
-            this.setState({
-                items: this.props.screen.itemsWidgets,
-                selected: this.props.screen.selectedWidgets
-            })
+            if(this.props.screen !== undefined) {
+                this.setState({
+                    items: this.props.screen.itemsWidgets,
+                    selected: this.props.screen.selectedWidgets,
+                    screenName: this.props.screen.name
+                })
+            }else {
+                this.setState({
+                    items: [],
+                    selected: [],
+                    screenName: 'No screen selected'
+                })
+            }
         }
     }
 
@@ -84,9 +89,7 @@ class widgetArea extends Component {
                 this.getList(destination.droppableId),
                 source,
                 destination
-            );
-            console.log('result.droppable2') 
-            console.log(result.droppable2)    
+            );   
             this.setState({
                 items: result.droppable,
                 selected: result.droppable2
@@ -95,18 +98,17 @@ class widgetArea extends Component {
             const updateScreen = {
                 id: this.props.screen.id,
                 name: this.props.screen.name,
-                itemsWidgets: this.state.items,
-                selectedWidgets: this.state.selected
+                itemsWidgets: result.droppable,
+                selectedWidgets: result.droppable2
             }
             this.props.updateSelected(updateScreen);
         }
     };
 
   render() {
-    console.log(this.state.items)
-    console.log(this.state.selected)
     return (
         <div className="row"> 
+        <div className="col-sm-12"><h4>{this.state.screenName}</h4></div>
         <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable2">
                 {(provided, snapshot) => (
@@ -114,7 +116,7 @@ class widgetArea extends Component {
                         className="col-md-8"
                         ref={provided.innerRef}
                         style={getListStyle(snapshot.isDraggingOver)}>
-                        <WidgetSelected selected={this.state.selected} />
+                        <WidgetList items={this.state.selected} />
                         {provided.placeholder}
                     </div>
                 )}

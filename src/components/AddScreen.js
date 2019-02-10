@@ -22,28 +22,42 @@ class AddScreen extends Component {
   constructor(){
     super();
     this.state = {
-      screenName: ''
+      screenName: '',
+      error: false
     }
   }
 
   setScreenName = (e) => {
     this.setState({
-        screenName: e.target.value
+        screenName: e.target.value,
+        error: false
     })
   }
 
   addNewScreen = (e) => {
+    
     e.preventDefault();
+    
     const newScreen = {
       id: uuid(),
       name: this.state.screenName,
       itemsWidgets: itemsWidgets,
       selectedWidgets: selectedWidgets
     }
-    this.props.addScreen(newScreen);
+
+    if(this.state.screenName !== '') {
+      this.props.addScreen(newScreen);
+      this.setState({screenName: ''})
+    }else{
+      this.setState({error: true})
+    }
+    
   }
 
   render() {
+
+    const {error} = this.state;
+    
     return (
       <div className="card">
         <div className="card-body">
@@ -51,7 +65,12 @@ class AddScreen extends Component {
           <form onSubmit={this.addNewScreen}>
               <div className="row">
                 <div className="col-sm-12">
-                    <input onChange={this.setScreenName} type="text" className="form-control" placeholder="Add name" />
+                    <input 
+                      value={this.state.screenName}
+                      onChange={this.setScreenName}
+                      type="text"
+                      className="form-control"
+                      placeholder="Writte screen name" />
                 </div>
               </div>
               <div className="form-group row justify-content-end">
@@ -59,6 +78,13 @@ class AddScreen extends Component {
                       <button type="submit" className="btn btn-success w-100">Add</button>
                   </div>
               </div>
+              {error? 
+                <div className="col-sm-12">
+                  <span className="label label-warning">Name is required</span>
+                </div>
+                : ''
+              }
+
           </form>
         </div>
       </div>

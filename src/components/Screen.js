@@ -5,11 +5,11 @@ import { deleteScreen, detailsScreen } from '../actions/screensActions';
 class Screen extends Component {
 
   deleteScreen = () => {
-    this.props.deleteScreen(this.props.info.id)
+    this.props.deleteScreen(this.props.info.id);
   }
 
   detailsScreen = () => {
-    this.props.detailsScreen(this.props.info.id)
+    this.props.detailsScreen(this.props.info.id);
   }
 
   render() {
@@ -21,7 +21,8 @@ class Screen extends Component {
           <div className="col-md-3 p-1">
             <button 
               onClick={this.detailsScreen}
-              className="btn btn-info btn-sm">Details
+              className="btn btn-info btn-sm">
+                Widgets
             </button> 
           </div>
           <div className="col-md-2 p-1">
