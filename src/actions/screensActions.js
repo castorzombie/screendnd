@@ -1,4 +1,4 @@
-import { SHOW_SCREENS, ADD_SCREEN, DELETE_SCREEN, DETAILS_SCREEN } from './types';
+import { SHOW_SCREENS, ADD_SCREEN, DELETE_SCREEN, DETAILS_SCREEN, UPDATE_SELECTED } from './types';
 
 export const getScreens = () => {
     return {
@@ -25,4 +25,11 @@ export const detailsScreen = (id) => {
         type: DETAILS_SCREEN,
         payload: id
     }
+}
+
+export const updateSelected = (screen) => {
+    return{
+        type: UPDATE_SELECTED,
+        payload: screen
+    } 
 }

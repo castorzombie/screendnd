@@ -1,4 +1,4 @@
-import { SHOW_SCREENS, ADD_SCREEN, DELETE_SCREEN, DETAILS_SCREEN } from '../actions/types'
+import { SHOW_SCREENS, ADD_SCREEN, DELETE_SCREEN, DETAILS_SCREEN, UPDATE_SELECTED } from '../actions/types'
 
 const initialState = {
     screens: [],
@@ -25,7 +25,16 @@ export default function(state = initialState, action) {
             return {
                 ...state, 
                 screen: state.screens.find(screen => screen.id == action.payload)
-            }    
+            }
+        case UPDATE_SELECTED:
+            return {
+                ...state,
+                screens: state.screens.map(
+                    screen => screen.id === action.payload.id
+                    ? (screen = action.payload)
+                    : screen
+                )
+            }                    
         default:
             return state;              
     }

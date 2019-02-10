@@ -3,6 +3,7 @@ import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 import WidgetList from './WidgetList'
 import WidgetSelected from './WidgetSelected'
 import {connect} from 'react-redux';
+import {updateSelected} from '../actions/screensActions';
 
 const getItems = (count, offset = 0) =>
     Array.from({ length: count }, (v, k) => k).map(k => ({
@@ -45,10 +46,11 @@ class widgetArea extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        console.log(this.props.screen)
         if (prevProps.screen !== this.props.screen) {
+            console.log(this.props.screen.selectedWidgets)
             this.setState({
-                selected: getItems(this.props.screen.selectedWidegts, 10)
+                items: getItems(10),
+                selected: getItems(this.props.screen.selectedWidgets, 10)
             })
         }
     }
@@ -85,11 +87,19 @@ class widgetArea extends Component {
                 source,
                 destination
             );
-
+            console.log('result.droppable2') 
+            console.log(result.droppable2)    
             this.setState({
                 items: result.droppable,
                 selected: result.droppable2
             });
+
+            const updateScreen = {
+                id: this.props.screen.id,
+                name: this.props.screen.name,
+                selectedWidgets: result.droppable2.length
+            }
+            this.props.updateSelected(updateScreen);
         }
     };
 
@@ -125,11 +135,12 @@ class widgetArea extends Component {
         </div>
     )
   }
-}
+};
 
 const mapStateToProps = (state) => ({
+    screens: state.screens.screens,
     screen: state.screens.screen
-  })
+});
   
-  export default connect(mapStateToProps) (widgetArea)
+export default connect(mapStateToProps,{updateSelected})(widgetArea);
 
