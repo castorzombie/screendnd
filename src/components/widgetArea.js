@@ -27,11 +27,10 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     const result = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
-
     return result;
 };
 
-const grid = 8;
+const grid = 10;
 
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? 'lightblue' : 'lightgrey',
@@ -41,16 +40,15 @@ const getListStyle = isDraggingOver => ({
 
 class widgetArea extends Component {
     state = {
-        items: getItems(10),
-        selected: getItems(0, 10)
+        items: getItems(0),
+        selected: getItems(0, 0)
     };
 
     componentDidUpdate(prevProps) {
         if (prevProps.screen !== this.props.screen) {
-            console.log(this.props.screen.selectedWidgets)
             this.setState({
-                items: getItems(10),
-                selected: getItems(this.props.screen.selectedWidgets, 10)
+                items: this.props.screen.itemsWidgets,
+                selected: this.props.screen.selectedWidgets
             })
         }
     }
@@ -97,7 +95,8 @@ class widgetArea extends Component {
             const updateScreen = {
                 id: this.props.screen.id,
                 name: this.props.screen.name,
-                selectedWidgets: result.droppable2.length
+                itemsWidgets: this.state.items,
+                selectedWidgets: this.state.selected
             }
             this.props.updateSelected(updateScreen);
         }

@@ -3,6 +3,21 @@ import { connect } from 'react-redux';
 import { addScreen } from '../actions/screensActions';
 import uuid from 'uuid';
 
+const itemsWidgets = [
+  {id: "item-1", content: "widget 1"},
+  {id: "item-2", content: "widget 2"},
+  {id: "item-3", content: "widget 3"},
+  {id: "item-4", content: "widget 4"},
+  {id: "item-5", content: "widget 5"},
+  {id: "item-6", content: "widget 6"},
+  {id: "item-7", content: "widget 7"},
+  {id: "item-8", content: "widget 8"},
+  {id: "item-9", content: "widget 9"},
+  {id: "item-10", content: "widget 10"}
+];
+
+const selectedWidgets = [];
+
 class AddScreen extends Component {
   constructor(){
     super();
@@ -22,7 +37,8 @@ class AddScreen extends Component {
     const newScreen = {
       id: uuid(),
       name: this.state.screenName,
-      selectedWidgets: 2
+      itemsWidgets: itemsWidgets,
+      selectedWidgets: selectedWidgets
     }
     this.props.addScreen(newScreen);
   }
