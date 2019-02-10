@@ -1,7 +1,8 @@
-import { SHOW_SCREENS, ADD_SCREEN, DELETE_SCREEN } from '../actions/types'
+import { SHOW_SCREENS, ADD_SCREEN, DELETE_SCREEN, DETAILS_SCREEN } from '../actions/types'
 
 const initialState = {
-    screens: []
+    screens: [],
+    screen: {}
 }
 
 export default function(state = initialState, action) {
@@ -20,8 +21,12 @@ export default function(state = initialState, action) {
                 ...state,
                 screens: state.screens.filter(screen => screen.id != action.payload)
             } 
+        case DETAILS_SCREEN:
+            return {
+                ...state, 
+                screen: state.screens.find(screen => screen.id == action.payload)
+            }    
         default:
-            return state;
-               
+            return state;              
     }
 }

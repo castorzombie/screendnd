@@ -8,33 +8,32 @@ store.subscribe( () => {
   localStorage.setItem('screens', JSON.stringify(store.getState()))
 })
 
-
 class ListScreen extends Component {
 
-componentDidMount() {
-  this.props.getScreens();
-}
+  componentDidMount() {
+    this.props.getScreens();
+  }
 
   render() {
-
     const screens = this.props;
     console.log(screens.screens);
-    const msg = Object.keys(screens.screens).length === 0 ? 'No screesn avaliable': 'screens available';
+    console.log(screens.screen);
+    const msg = Object.keys(screens.screens).length === 0 ? 'No screens avaliable': 'Screens list';
     
     return (
-      <div className="card mt-5">
+      <div className="card mt-2">
           <div className="card-body">
-              <h2 className="card-title text-center">{msg}</h2>
-              <div className="screen-list">
-                      {Object.keys(this.props.screens).map(screen => (
-                          <Screen
-                              key={screen}
-                              info={this.props.screens[screen]}
-                              idCita={screen}
-                              deleteScreen={this.props.deleteScreen}
-                          />
-                      ))}
-              </div>
+            <h2 className="card-title">{msg}</h2>
+            <div className="screen-list">
+              {Object.keys(this.props.screens).map(screen => (
+                  <Screen
+                    key={screen}
+                    info={this.props.screens[screen]}
+                    idScreen={screen}
+                    deleteScreen={this.props.deleteScreen}
+                  />
+              ))}
+            </div>
           </div>
       </div>
     )

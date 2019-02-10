@@ -1,4 +1,4 @@
-import { SHOW_SCREENS, ADD_SCREEN, DELETE_SCREEN } from './types';
+import { SHOW_SCREENS, ADD_SCREEN, DELETE_SCREEN, DETAILS_SCREEN } from './types';
 
 export const getScreens = () => {
     return {
@@ -10,7 +10,6 @@ export const addScreen = (screen) => {
     return {
         type: ADD_SCREEN,
         payload: screen
-
     }
 };
 
@@ -20,3 +19,10 @@ export const deleteScreen = (id) => {
         payload: id
     }
 };
+
+export const detailsScreen = (id) => {
+    return {
+        type: DETAILS_SCREEN,
+        payload: id
+    }
+}
